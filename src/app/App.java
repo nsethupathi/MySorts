@@ -132,6 +132,7 @@ public class App {
                 _nums[i] = tmp;
             }
         }
+        
         _nums[r] = _nums[i + 1];
         _nums[i+ 1] = x;
         
@@ -147,6 +148,4 @@ public class App {
             QuickSort(_nums, q + 1, r);
         }
     }
-
-
 }
