@@ -6,6 +6,7 @@ public class App {
         
 
         int[] nums = {10, 7, 24, 43, 4, 14, 8, 47, 34, 54, 53};
+        //int[] nums = {7, 2, 1, 9};
 
         // print unsorted array
         System.out.println("Unsorted Array");
@@ -19,8 +20,11 @@ public class App {
         // System.out.println("Insertion Sort");
         // InsertionSort(nums);
 
-        System.out.println("Merge Sort");
-        MergeSort(nums, 0, nums.length - 1);
+        //System.out.println("Merge Sort");
+        //MergeSort(nums, 0, nums.length - 1);
+
+        System.out.println("Quick Sort");
+        QuickSort(nums, 0, nums.length - 1);
 
         for (int i : nums)
         {
@@ -45,33 +49,33 @@ public class App {
         }
     }
 
-    public static void Merge(int[] _nums, int l, int m, int r)
+    public static void Merge(int[] _nums, int first, int mid, int last)
     {
         int i, j, k;
-        int n1 = m - l + 1;
-        int n2 = r - m;
+        int lSize = mid - first + 1;
+        int rSize = last - mid;
 
         // create temp arrays
-        int L[] = new int[n1];
-        int R[] = new int[n2];
+        int L[] = new int[lSize];
+        int R[] = new int[rSize];
 
         // load temp arrays
-        for(i = 0; i < n1; i++)
+        for(i = 0; i < lSize; i++)
         {
-            L[i] = _nums[l + i];
+            L[i] = _nums[first + i];
         }
-        for(j = 0; j < n2; j++)
+        for(j = 0; j < rSize; j++)
         {
-            R[j] = _nums[m + 1 + j];
+            R[j] = _nums[mid + 1 + j];
         }
 
         // reset indices
         i = 0;
         j = 0;
-        k = l;
+        k = first;
 
         // merge the temp arrays
-        while (i < n1 && j < n2)
+        while (i < lSize && j < rSize)
         {
             if (L[i] <= R[j])
             {
@@ -88,13 +92,13 @@ public class App {
         }
 
         // copy any leftovers
-        while (i < n1)
+        while (i < lSize)
         {
             _nums[k] = L[i];
             i++;
             k++;
         }
-        while (j < n2)
+        while (j < rSize)
         {
             _nums[k] = R[j];
             j++;
@@ -102,15 +106,47 @@ public class App {
         }
     }
 
-    public static void MergeSort(int[] _nums, int l, int r)
+    public static void MergeSort(int[] _nums, int first, int last)
     {
-        if (l < r)
+        if (first < last)
         {
-            int m = (l + r) / 2;
-            MergeSort(_nums, l, m);
-            MergeSort(_nums, m + 1, r);
-            Merge(_nums, l, m, r);
+            int mid = (first + last) / 2;
+            MergeSort(_nums, first, mid);
+            MergeSort(_nums, mid + 1, last);
+            Merge(_nums, first, mid, last);
         }
     }
+
+    public static int Partition(int[] _nums, int p, int r)
+    {
+        int tmp;
+        int x = _nums[r];
+        int i = p - 1;
+        for(int j = p; j < r; j++)
+        {
+            if (_nums[j] <= x)
+            {
+                i++;
+                tmp = _nums[j];
+                _nums[j] = _nums[i];
+                _nums[i] = tmp;
+            }
+        }
+        _nums[r] = _nums[i + 1];
+        _nums[i+ 1] = x;
+        
+        return i + 1;
+    }
+
+    public static void QuickSort(int[] _nums, int p, int r)
+    {
+        if (p < r)
+        {
+            int q = Partition(_nums, p, r);
+            QuickSort(_nums, p, q - 1);
+            QuickSort(_nums, q + 1, r);
+        }
+    }
+
 
 }
